@@ -452,7 +452,8 @@ playertexture_r = transform.scale(image.load('geroi.png'),(razmer,razmer))
 
 flat0 = Platforma(0,550,1600,50)
 flat1 = Platforma(0,425,200,25)
-flat2 = Platforma(150,250,650,25)
+flat2 = Platforma(150,250,300,25)
+flat3 = Platforma(600,130,200,25)
 knight = Player('geroi.png',150,150,5)
 princess = Finish('princess.png',0,450)
 bomb = Bomb('bomb.png',600,450)
@@ -466,10 +467,27 @@ active = True
 move = True
 sectick = 1
 ktick = False
+lev = -5
+levplus = True
 #Главный цикл
 while active:
     #тикрейт
     clock.tick(FPS)
+    #для левитации
+    if levplus:
+        if lev < 2:
+            lev += 0.1
+        elif lev >= 2:
+            levplus = False
+        else:
+            pass
+    else:
+        if lev > -2:
+            lev -= 0.1
+        elif lev <= -2:
+            levplus = True
+        else:
+            pass
     #каждый второй тик
     if sectick < 7:
         ktick = False
@@ -531,6 +549,9 @@ while active:
     if keys[K_ESCAPE]:
         active = False
         exit()
+    #левитация
+    if keys[K_f]:
+        knight.y_speed = lev
     #прыжок
     for t in flats:
         jumplist.append(t.stands_on_me)
